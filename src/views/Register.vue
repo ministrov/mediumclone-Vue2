@@ -33,7 +33,11 @@
               >
             </fieldset>
 
-            <button class="btn btn-lg btn-primary pull-xs-right">Sign Up</button>
+            <button class="btn btn-lg btn-primary pull-xs-right"
+              :disabled="isSubmitting"
+            >
+              Sign Up
+            </button>
           </form>
         </div>
       </div>
@@ -44,9 +48,21 @@
 <script>
 export default {
   name: 'McvRegister',
+  computed: {
+    isSubmitting() {
+      return this.$store.state.auth.isSubmitting
+    }
+  },
   methods: {
     onSubmit() {
       console.log('submitted form');
+      this.$store.dispatch('register', {
+        email: 'alox@dfdfdkl.com',
+        username: 'sdfdfgg',
+        password: 1234567
+      }).then(user => {
+        console.log('successfully registered user', user);
+      })
     }
   }
 }
