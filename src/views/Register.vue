@@ -7,13 +7,17 @@
           <p class="text-xs-center">
             <router-link :to="{name: 'login'}">Need an account?</router-link>
           </p>
-          VALIDATIONS ERRORS
+          <McvValidationErrors
+            v-if="validationErrors"
+            :validationErrors="validationErrors"
+          />
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
                 type="text"
                 class="form-control form-control-lg"
                 placeholder="Username"
+                v-model="username"
               >
             </fieldset>
 
@@ -22,6 +26,7 @@
                 type="text"
                 class="form-control form-control-lg"
                 placeholder="Email"
+                v-model="email"
               >
             </fieldset>
 
@@ -30,6 +35,7 @@
                 type="password"
                 class="form-control form-control-lg"
                 placeholder="Password"
+                v-model="password"
               >
             </fieldset>
 
@@ -46,22 +52,38 @@
 </template>
 
 <script>
+import McvValidationErrors from '@/components/ValidationErrors';
+
 export default {
   name: 'McvRegister',
+  components: {
+    McvValidationErrors
+  },
+  data () {
+    return {
+      email: '',
+      password: '',
+      username: ''
+    }
+  },
   computed: {
     isSubmitting() {
       return this.$store.state.auth.isSubmitting
+    },
+    validationErrors() {
+      return this.$store.state.auth.validationErrors
     }
   },
   methods: {
     onSubmit() {
       console.log('submitted form');
       this.$store.dispatch('register', {
-        email: 'alox@dfdfdkl.com',
-        username: 'sdfdfgg',
-        password: 1234567
+        email: this.email,
+        username: this.username,
+        password: this.password
       }).then(user => {
         console.log('successfully registered user', user);
+        this.$router.push({name: 'home'});
       })
     }
   }
