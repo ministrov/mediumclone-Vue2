@@ -8,35 +8,79 @@ const state = {
   isLoggedIn: null
 }
 
+export const mutationTypes = {
+  registerStart: '[auth] registerStart',
+  registerSuccess: '[auth] registerSucces',
+  registerFailure: '[auth] registerFailure',
+
+  loginStart: '[auth] loginStart',
+  loginSuccess: '[auth] loginSucces',
+  loginFailure: '[auth] loginFailure',
+}
+
+export const actionTypes = {
+  register: '[auth] register',
+  login: '[auth] login'
+}
+
 const mutations = {
-  registerStart(state) {
+  [mutationTypes.registerStart](state) {
     state.isSubmitting = true;
     state.validationErrors = null;
   },
-  registerSuccess(state, payload) {
+  [mutationTypes.registerSuccess](state, payload) {
     state.isSubmitting = false;
     state.currentUser = payload;
     state.isLoggedIn = true;
   },
-  registerFailure(state, payload) {
+  [mutationTypes.registerFailure](state, payload) {
+    state.isSubmitting = false;
+    state.validationErrors = payload;
+  },
+  [mutationTypes.loginStart](state) {
+    state.isSubmitting = true;
+    state.validationErrors = null;
+  },
+  [mutationTypes.loginSuccess](state, payload) {
+    state.isSubmitting = false;
+    state.currentUser = payload;
+    state.isLoggedIn = true;
+  },
+  [mutationTypes.loginFailure](state, payload) {
     state.isSubmitting = false;
     state.validationErrors = payload;
   }
 }
 
 const actions = {
-  register(contex, credentials) {
+  [actionTypes.register](contex, credentials) {
     return new Promise(resolve => {
-      contex.commit('registerStart');
+      contex.commit(mutationTypes.registerStart);
       authAPI
         .register(credentials)
         .then(response => {
-          contex.commit('registerSuccess', response.data.user);
+          contex.commit(mutationTypes.registerSuccess, response.data.user);
           setItem('accessToken', response.data.user.token);
           resolve(response.data.user);
         })
         .catch(result => {
-          contex.commit('registerFailure', result.response.data.errors);
+          contex.commit(mutationTypes.registerFailure, result.response.data.errors);
+        })
+    })
+  },
+
+  [actionTypes.login](contex, credentials) {
+    return new Promise(resolve => {
+      contex.commit(mutationTypes.loginStart);
+      authAPI
+        .login(credentials)
+        .then(response => {
+          contex.commit(mutationTypes.loginSuccess, response.data.user);
+          setItem('accessToken', response.data.user.token);
+          resolve(response.data.user);
+        })
+        .catch(result => {
+          contex.commit(mutationTypes.loginFailure, result.response.data.errors);
         })
     })
   }
