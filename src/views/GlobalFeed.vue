@@ -7,7 +7,7 @@
           <McvFeed :apiUrl="apiUrl" />
         </div>
         <div class="col-md-3">
-          POPULAR TAGS
+          <McvPopularTags/>
         </div>
       </div>
     </div>
@@ -16,10 +16,12 @@
 
 <script>
 import McvFeed from '@/components/Feed.vue'
+import McvPopularTags from '@/components/PopularTags'
   export default {
     name: 'McvGlobalFeed',
     components: {
-      McvFeed
+      McvFeed,
+      McvPopularTags
     },
     data() {
       return {
