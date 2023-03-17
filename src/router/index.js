@@ -1,17 +1,14 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Register from '@/views/Register.vue'
-import Login from '@/views/Login.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import GlobalFeed from '../views/GlobalFeed.vue';
+import YourFeed from '@/views/YourFeed.vue';
+import TagFeed from '@/views/TagFeed.vue';
+import Register from '@/views/Register.vue';
+import Login from '@/views/Login.vue';
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
   {
     path: '/register',
     name: 'register',
@@ -22,6 +19,51 @@ const routes = [
     name: 'login',
     component: Login
   },
+  {
+    path: '/',
+    name: 'globalFeed',
+    component: GlobalFeed
+  },
+  {
+    path: '/feed',
+    name: 'yourFeed',
+    component: YourFeed
+  },
+  {
+    path: '/tags/:slug',
+    name: 'tag',
+    component: TagFeed
+  },
+  {
+    path: '/articles/new',
+    name: 'createArticle',
+    component: GlobalFeed
+  },
+  {
+    path: '/articles/:slug',
+    name: 'article',
+    component: GlobalFeed
+  },
+  {
+    path: '/articles/:slug/edit',
+    name: 'editArticle',
+    component: GlobalFeed
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: GlobalFeed
+  },
+  {
+    path: '/profiles/:slug',
+    name: 'userProfile',
+    component: GlobalFeed
+  },
+  {
+    path: '/profiles/:slug/favorites',
+    name: 'userProfileFavorites',
+    component: GlobalFeed
+  }
 ]
 
 const router = new VueRouter({
