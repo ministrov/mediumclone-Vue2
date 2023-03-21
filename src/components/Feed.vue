@@ -30,7 +30,9 @@
           <h1>{{ article.title }}</h1>
           <p>{{ article.description }}</p>
           <span>Read more...</span>
-          TAG LIST
+          <McvTagList
+            :tags="article.tagList"
+          />
         </router-link>
       </div>
       <McvPagination
@@ -49,6 +51,7 @@
   import McvPagination from '@/components/Pagination';
   import McvLoading from '@/components/Loading';
   import McvErrorMessage from '@/components/ErrorMessage';
+  import McvTagList from '@/components/TagList';
   import {limit} from '@/helpers/vars';
   import { parseUrl, stringify } from 'query-string';
 
@@ -63,14 +66,8 @@
     components: {
       McvPagination,
       McvLoading,
-      McvErrorMessage
-    },
-    data() {
-      return {
-        // total: 500,
-        limit,
-        url: '/tags/dragons'
-      }
+      McvErrorMessage,
+      McvTagList
     },
     computed: {
       // Подписка на три поля , которые мы создали во Vuex(store)
@@ -79,11 +76,14 @@
         feed: state => state.feed.data,
         error: state => state.feed.error,
       }),
-      currentPage() {
-        return Number(this.$route.query.page || '1');
+      limit() {
+        return limit
       },
       baseUrl() {
         return this.$route.path;
+      },
+      currentPage() {
+        return Number(this.$route.query.page || '1');
       },
       offset() {
         return this.currentPage * limit - limit;
@@ -100,16 +100,16 @@
     },
     methods: {
       fetchFeed() {
-        const parsedUrl = parseUrl(this.apiUrl);
+        const parsedUrl = parseUrl(this.apiUrl)
         const stringifiedParams = stringify({
           limit,
           offset: this.offset,
           ...parsedUrl.query
-        });
-        const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-        this.$store.dispatch(actionTypes.getFeed, {apiUrl: apiUrlWithParams});
+        })
+        const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+        this.$store.dispatch(actionTypes.getFeed, {apiUrl: apiUrlWithParams})
       }
-    },
+    }
   }
 </script>
 
