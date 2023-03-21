@@ -32,14 +32,13 @@ export default {
     }),
     initialValues() {
       if (!this.article) {
-        return null;
+        return null
       }
-
       return {
         title: this.article.title,
         description: this.article.description,
         body: this.article.body,
-        tagList: this.article.tagList,
+        tagList: this.article.tagList
       }
     }
   },
@@ -50,16 +49,14 @@ export default {
   },
   methods: {
     onSubmit(articleInput) {
-      const slug = this.$route.params.slug;
-
+      const slug = this.$route.params.slug
       this.$store
-        .dispatch(actionTypes.updateArticle, {slug, articleInput })
-        .then((article) => {
-          this.$router.push({ name: "article", params: { slug: article.slug } });
-        });
-      console.log("onsubmit in editArticle");
-    },
-  },
+        .dispatch(actionTypes.updateArticle, {articleInput, slug})
+        .then(article => {
+          this.$router.push({name: 'article', params: {slug: article.slug}})
+        })
+    }
+  }
 };
 </script>
 
