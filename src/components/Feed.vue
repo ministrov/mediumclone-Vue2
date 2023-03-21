@@ -69,13 +69,6 @@
       McvErrorMessage,
       McvTagList
     },
-    data() {
-      return {
-        // total: 500,
-        limit,
-        url: '/tags/dragons'
-      }
-    },
     computed: {
       // Подписка на три поля , которые мы создали во Vuex(store)
       ...mapState({
@@ -83,11 +76,14 @@
         feed: state => state.feed.data,
         error: state => state.feed.error,
       }),
-      currentPage() {
-        return Number(this.$route.query.page || '1');
+      limit() {
+        return limit
       },
       baseUrl() {
         return this.$route.path;
+      },
+      currentPage() {
+        return Number(this.$route.query.page || '1');
       },
       offset() {
         return this.currentPage * limit - limit;
@@ -104,16 +100,16 @@
     },
     methods: {
       fetchFeed() {
-        const parsedUrl = parseUrl(this.apiUrl);
+        const parsedUrl = parseUrl(this.apiUrl)
         const stringifiedParams = stringify({
           limit,
           offset: this.offset,
           ...parsedUrl.query
-        });
-        const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-        this.$store.dispatch(actionTypes.getFeed, {apiUrl: apiUrlWithParams});
+        })
+        const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+        this.$store.dispatch(actionTypes.getFeed, {apiUrl: apiUrlWithParams})
       }
-    },
+    }
   }
 </script>
 

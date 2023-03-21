@@ -92,10 +92,10 @@ export default {
   methods: {
     deleteArticle() {
       this.$store.dispatch(articleActionTypes.deleteArticle, {
-        slug: this.$route.params.slug
+        slug: this.$router.params.slug
       })
       .then(() => {
-        this.$route.push({ name: 'globalFeed'})
+        this.$router.push({ name: 'globalFeed'})
       })
     }
   },
