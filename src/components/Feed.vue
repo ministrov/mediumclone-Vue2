@@ -21,7 +21,11 @@
             <span class="date">{{ article.createdAt }}</span>
           </div>
           <div class="pull-xs-right">
-            ADD TO FAVORITES
+            <McvAddToFavorites
+              :isFavorited="article.favorited"
+              :articleSlug="article.slug"
+              :favoritesCount="article.favoritesCount"
+            />
           </div>
         </div>
         <router-link :to="{name: 'article', params: {slug: article.slug}}"
@@ -52,6 +56,7 @@
   import McvLoading from '@/components/Loading';
   import McvErrorMessage from '@/components/ErrorMessage';
   import McvTagList from '@/components/TagList';
+  import McvAddToFavorites from '@/components/AddToFavorites';
   import {limit} from '@/helpers/vars';
   import { parseUrl, stringify } from 'query-string';
 
@@ -67,7 +72,8 @@
       McvPagination,
       McvLoading,
       McvErrorMessage,
-      McvTagList
+      McvTagList,
+      McvAddToFavorites
     },
     computed: {
       // Подписка на три поля , которые мы создали во Vuex(store)
