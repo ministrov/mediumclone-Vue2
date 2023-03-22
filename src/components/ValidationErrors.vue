@@ -12,7 +12,6 @@ export default {
   props: {
     validationErrors: {
       type: Object,
-    // eslint-disable-next-line vue/require-prop-type-constructor
       required: true
     }
   },
@@ -27,7 +26,3 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-/* Шелепихинская наб., 34к3зд6 coliseum шелепиха адрес */
-</style>

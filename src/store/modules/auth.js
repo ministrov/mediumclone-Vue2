@@ -25,13 +25,16 @@ export const mutationTypes = {
   updateCurrentUserStart: '[auth] updateCurrentUserStart',
   updateCurrentUserSuccess: '[auth] updateCurrentUserSucces',
   updateCurrentUserFailure: '[auth] updateCurrentUserFailure',
+
+  logout: '[auth] logout'
 }
 
 export const actionTypes = {
   register: '[auth] register',
   login: '[auth] login',
   getCurrentUser: '[auth] getCurrentUser',
-  updateCurrentUser: '[auth] updateCurrentUser'
+  updateCurrentUser: '[auth] updateCurrentUser',
+  logout: '[auth] logout'
 }
 
 export const getterTypes = {
@@ -54,49 +57,53 @@ const getters = {
 
 const mutations = {
   [mutationTypes.registerStart](state) {
-    state.isSubmitting = true;
-    state.validationErrors = null;
+    state.isSubmitting = true
+    state.validationErrors = null
   },
   [mutationTypes.registerSuccess](state, payload) {
-    state.isSubmitting = false;
-    state.currentUser = payload;
-    state.isLoggedIn = true;
+    state.isSubmitting = false
+    state.isLoggedIn = true
+    state.currentUser = payload
   },
   [mutationTypes.registerFailure](state, payload) {
-    state.isSubmitting = false;
-    state.validationErrors = payload;
+    state.isSubmitting = false
+    state.validationErrors = payload
   },
   [mutationTypes.loginStart](state) {
-    state.isSubmitting = true;
-    state.validationErrors = null;
+    state.isSubmitting = true
+    state.validationErrors = null
   },
   [mutationTypes.loginSuccess](state, payload) {
-    state.isSubmitting = false;
-    state.currentUser = payload;
-    state.isLoggedIn = true;
+    state.isSubmitting = false
+    state.isLoggedIn = true
+    state.currentUser = payload
   },
   [mutationTypes.loginFailure](state, payload) {
-    state.isSubmitting = false;
-    state.validationErrors = payload;
+    state.isSubmitting = false
+    state.validationErrors = payload
   },
   [mutationTypes.getCurrentUserStart](state) {
-    state.isLoading = true;
+    state.isLoading = true
   },
   [mutationTypes.getCurrentUserSuccess](state, payload) {
-    state.isLoading = false;
-    state.currentUser = payload;
-    state.isLoggedIn = true;
+    state.isLoading = false
+    state.isLoggedIn = true
+    state.currentUser = payload
   },
   [mutationTypes.getCurrentUserFailure](state) {
-    state.isLoading = false;
-    state.isLoggedIn = false;
-    state.currentUser = null;
+    state.isLoading = false
+    state.isLoggedIn = false
+    state.currentUser = null
   },
   [mutationTypes.updateCurrentUserStart]() {},
   [mutationTypes.updateCurrentUserSuccess](state, payload) {
     state.currentUser = payload
   },
-  [mutationTypes.updateCurrentUserFailure]() {}
+  [mutationTypes.updateCurrentUserFailure]() {},
+  [mutationTypes.logout]() {
+    state.currentUser = null
+    state.isLoggedIn = false
+  }
 }
 
 const actions = {
@@ -159,6 +166,14 @@ const actions = {
         .catch(result => {
           contex.commit(mutationTypes.updateCurrentUserFailure, result.response.data.errors);
         })
+    })
+  },
+
+  [actionTypes.logout](context) {
+    return new Promise(resolve => {
+      setItem('accessToken', '')
+      context.commit(mutationTypes.logout)
+      resolve()
     })
   }
 }

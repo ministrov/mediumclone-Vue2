@@ -1,4 +1,4 @@
-import {mutationTypes as authMutationTypes} from '@/store/modules/auth';
+import {mutationTypes as authMutationTypes} from '@/store/modules/auth'
 
 const state = {
   isSubmitting: false,

@@ -15,6 +15,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="URL of profile image"
+                  v-model="form.image"
                 />
               </fieldset>
 
@@ -23,6 +24,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="Username"
+                  v-model="form.username"
                 />
               </fieldset>
 
@@ -30,6 +32,7 @@
                 <textarea
                   class="form-control form-control-lg"
                   placeholder="Short bio about you"
+                  v-model="form.bio"
                 ></textarea>
               </fieldset>
 
@@ -38,6 +41,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="Email"
+                  v-model="form.email"
                 />
               </fieldset>
 
@@ -46,6 +50,7 @@
                   type="password"
                   class="form-control form-control-lg"
                   placeholder="New password"
+                  v-model="form.password"
                 />
               </fieldset>
               <button
@@ -58,7 +63,7 @@
             </fieldset>
           </form>
           <hr />
-          <button class="btn btn-outline-danger" type="text">
+          <button class="btn btn-outline-danger" @click="logout" type="text">
             Or cick here to logout
           </button>
         </div>
@@ -69,7 +74,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { getterTypes as authGetterTypes } from '@/store/modules/auth';
+import { getterTypes as authGetterTypes, actionTypes as authActionTypes } from '@/store/modules/auth';
 import McvValidationErrors from '@/components/ValidationErrors';
 
   export default {
@@ -84,8 +89,29 @@ import McvValidationErrors from '@/components/ValidationErrors';
       }),
       ...mapGetters({
         currentUser: authGetterTypes.currentUser
-      })
-    }
+      }),
+      form() {
+        return {
+          username: this.currentUser.username,
+          bio: this.currentUser.bio,
+          image: this.currentUser.image,
+          email: this.currentUser.email,
+          password: ''
+        }
+      }
+    },
+    methods: {
+      onSubmit() {
+        console.log('submitted settings', this.form);
+        this.$store.dispatch(authActionTypes.updateCurrentUser, {currentUserInput: this.form});
+      },
+      logout() {
+        console.log('logout');
+        this.$store.dispatch(authActionTypes.logout).then(() => {
+          this.$router.push({name: 'globalFeed'})
+        })
+      }
+    },
   }
 </script>
 
