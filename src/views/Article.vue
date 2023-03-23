@@ -5,7 +5,7 @@
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
           <router-link
-            :to="{name: 'userProfile', params: {slug: article.author.username}}"
+            :to="{ name: 'userProfile', params: { slug: article.author.username } }"
           >
             <img :src="article.author.image" />
           </router-link>
@@ -13,7 +13,7 @@
             <router-link
               :to="{
                 name: 'userProfile',
-                params: {slug: article.author.username}
+                params: { slug: article.author.username },
               }"
             >
               {{ article.author.username }}
@@ -23,7 +23,7 @@
           <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
-              :to="{name: 'editArticle', params: {slug: article.slug}}"
+              :to="{ name: 'editArticle', params: { slug: article.slug } }"
             >
               <i class="ion-edit" />
               Edit Article
@@ -44,9 +44,7 @@
           <div>
             <p>{{ article.body }}</p>
           </div>
-          <McvTagList
-            :tags="article.tagList"
-          />
+          <McvTagList :tags="article.tagList" />
         </div>
       </div>
     </div>
@@ -54,29 +52,29 @@
 </template>
 
 <script>
-import { actionTypes as articleActionTypes } from '@/store/modules/article';
-import { getterTypes as authGetterTypes } from '@/store/modules/auth';
-import { mapState, mapGetters } from 'vuex';
-import McvLoading from '@/components/Loading';
-import McvErrorMessage from '@/components/ErrorMessage';
-import McvTagList from '@/components/TagList';
+import { actionTypes as articleActionTypes } from "@/store/modules/article";
+import { getterTypes as authGetterTypes } from "@/store/modules/auth";
+import { mapState, mapGetters } from "vuex";
+import McvLoading from "@/components/Loading";
+import McvErrorMessage from "@/components/ErrorMessage";
+import McvTagList from "@/components/TagList";
 
 export default {
-  name: 'McvArticle',
+  name: "McvArticle",
   components: {
     McvLoading,
     McvErrorMessage,
-    McvTagList
+    McvTagList,
   },
   computed: {
     ...mapState({
-      isLoading: state => state.article.isLoading,
-      error: state => state.article.error,
-      article: state => state.article.data
+      isLoading: (state) => state.article.isLoading,
+      error: (state) => state.article.error,
+      article: (state) => state.article.data,
     }),
     ...mapGetters({
       // Получаем локальную переменную currentUser с помощью mapGetters
-      currentUser: authGetterTypes.currentUser
+      currentUser: authGetterTypes.currentUser,
     }),
     isAuthor() {
       if (!this.currentUser || !this.article) {
@@ -84,24 +82,25 @@ export default {
       }
 
       return this.currentUser.username === this.article.author.username;
-    }
+    },
   },
   mounted() {
-    this.$store.dispatch(articleActionTypes.getArticle, {slug: this.$route.params.slug});
+    this.$store.dispatch(articleActionTypes.getArticle, {
+      slug: this.$route.params.slug,
+    });
   },
   methods: {
     deleteArticle() {
-      this.$store.dispatch(articleActionTypes.deleteArticle, {
-        slug: this.$router.params.slug
-      })
-      .then(() => {
-        this.$router.push({ name: 'globalFeed'})
-      })
-    }
+      this.$store
+        .dispatch(articleActionTypes.deleteArticle, {
+          slug: this.$router.params.slug,
+        })
+        .then(() => {
+          this.$router.push({ name: "globalFeed" });
+        });
+    },
   },
-}
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

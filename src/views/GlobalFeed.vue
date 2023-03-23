@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <McvBanner/>
+    <McvBanner />
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
@@ -8,7 +8,7 @@
           <McvFeed :apiUrl="apiUrl" />
         </div>
         <div class="col-md-3">
-          <McvPopularTags/>
+          <McvPopularTags />
         </div>
       </div>
     </div>
@@ -16,26 +16,24 @@
 </template>
 
 <script>
-import McvFeed from '@/components/Feed.vue';
-import McvPopularTags from '@/components/PopularTags';
-import McvBanner from '@/components/Banner';
-import McvFeedToggler from '@/components/FeedToggler';
-  export default {
-    name: 'McvGlobalFeed',
-    components: {
-      McvFeed,
-      McvPopularTags,
-      McvBanner,
-      McvFeedToggler
-    },
-    data() {
-      return {
-        apiUrl: '/articles'
-      }
-    }
-  }
+import McvFeed from "@/components/Feed.vue";
+import McvPopularTags from "@/components/PopularTags";
+import McvBanner from "@/components/Banner";
+import McvFeedToggler from "@/components/FeedToggler";
+export default {
+  name: "McvGlobalFeed",
+  components: {
+    McvFeed,
+    McvPopularTags,
+    McvBanner,
+    McvFeedToggler,
+  },
+  data() {
+    return {
+      apiUrl: "/articles",
+    };
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

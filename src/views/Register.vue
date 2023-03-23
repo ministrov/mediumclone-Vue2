@@ -5,7 +5,7 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign Up</h1>
           <p class="text-xs-center">
-            <router-link :to="{name: 'login'}">Have an account?</router-link>
+            <router-link :to="{ name: 'login' }">Have an account?</router-link>
           </p>
           <McvValidationErrors
             v-if="validationErrors"
@@ -18,7 +18,7 @@
                 class="form-control form-control-lg"
                 placeholder="Username"
                 v-model="username"
-              >
+              />
             </fieldset>
 
             <fieldset class="form-group">
@@ -27,7 +27,7 @@
                 class="form-control form-control-lg"
                 placeholder="Email"
                 v-model="email"
-              >
+              />
             </fieldset>
 
             <fieldset class="form-group">
@@ -36,12 +36,10 @@
                 class="form-control form-control-lg"
                 placeholder="Password"
                 v-model="password"
-              >
+              />
             </fieldset>
 
-            <button class="btn btn-lg btn-primary pull-xs-right"
-              :disabled="isSubmitting"
-            >
+            <button class="btn btn-lg btn-primary pull-xs-right" :disabled="isSubmitting">
               Sign Up
             </button>
           </form>
@@ -52,27 +50,27 @@
 </template>
 
 <script>
-import McvValidationErrors from '@/components/ValidationErrors';
-import { actionTypes } from '../store/modules/auth';
-import { mapState } from 'vuex';
+import McvValidationErrors from "@/components/ValidationErrors";
+import { actionTypes } from "../store/modules/auth";
+import { mapState } from "vuex";
 
 export default {
-  name: 'McvRegister',
+  name: "McvRegister",
   components: {
-    McvValidationErrors
+    McvValidationErrors,
   },
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
-      username: ''
-    }
+      email: "",
+      password: "",
+      username: "",
+    };
   },
   computed: {
     ...mapState({
-      isSubmitting: state => state.auth.isSubmitting,
-      validationErrors: state => state.auth.validationErrors
-    })
+      isSubmitting: (state) => state.auth.isSubmitting,
+      validationErrors: (state) => state.auth.validationErrors,
+    }),
     // isSubmitting() {
     //   return this.$store.state.auth.isSubmitting
     // },
@@ -82,16 +80,18 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('submitted form');
-      this.$store.dispatch(actionTypes.register, {
-        email: this.email,
-        username: this.username,
-        password: this.password
-      }).then(user => {
-        console.log('successfully registered user', user);
-        this.$router.push({name: 'globalFeed'});
-      })
-    }
-  }
-}
+      console.log("submitted form");
+      this.$store
+        .dispatch(actionTypes.register, {
+          email: this.email,
+          username: this.username,
+          password: this.password,
+        })
+        .then((user) => {
+          console.log("successfully registered user", user);
+          this.$router.push({ name: "globalFeed" });
+        });
+    },
+  },
+};
 </script>

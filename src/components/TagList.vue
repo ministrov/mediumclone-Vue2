@@ -1,10 +1,6 @@
 <template>
   <ul class="tag-list">
-    <li
-      v-for="tag in tags"
-      :key="tag"
-      class="tag-default tag-pill tag-outline"
-    >
+    <li v-for="tag in tags" :key="tag" class="tag-default tag-pill tag-outline">
       {{ tag }}
     </li>
   </ul>
@@ -12,16 +8,14 @@
 
 <script>
 export default {
-  name: 'McvTagList',
+  name: "McvTagList",
   props: {
     tags: {
       type: Array,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -8,6 +8,8 @@ import Login from '@/views/Login.vue';
 import Article from '@/views/Article.vue';
 import CreateArticle from '@/views/CreateArticle.vue';
 import EditArticle from '@/views/EditArticle.vue';
+import Settings from '@/views/Settings';
+import UserProfile from '@/views/UserProfile'
 
 Vue.use(VueRouter)
 
@@ -55,17 +57,17 @@ const routes = [
   {
     path: '/settings',
     name: 'settings',
-    component: GlobalFeed
+    component: Settings
   },
   {
     path: '/profiles/:slug',
     name: 'userProfile',
-    component: GlobalFeed
+    component: UserProfile
   },
   {
     path: '/profiles/:slug/favorites',
     name: 'userProfileFavorites',
-    component: GlobalFeed
+    component: UserProfile
   }
 ]
 
