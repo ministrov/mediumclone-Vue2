@@ -1,4 +1,4 @@
-import addToFavoritesAPI from '@/api/addToFavorites'
+import addToFavoritesAPI from '@/api/addToFavorites';
 
 export const actionTypes = {
   addToFavorites: '[addToFavorites] Add to favorites'
@@ -16,7 +16,23 @@ const mutations = {
   [mutationTypes.addToFavoritesFailure]() {}
 }
 
+const actions = {
+  [actionTypes.addToFavorites](context, {slug, isFavorited}) {
+    return new Promise(resolve => {
+      context.commit(mutationTypes.addToFavoritesStart)
+      const promise = isFavorited ? addToFavoritesAPI.removeFromFavorites(slug) : addToFavoritesAPI.addToFavorites(slug)
+
+      promise.then(article => {
+        context.commit(mutationTypes.addToFavoritesSuccess, article)
+        resolve(article)
+      }).catch(() => {
+        context.commit(mutationTypes.addToFavoritesFailure)
+      })
+    })
+  }
+}
+
 export default {
-  addToFavoritesAPI,
+  actions,
   mutations
 }

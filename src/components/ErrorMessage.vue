@@ -4,17 +4,15 @@
 
 <script>
 export default {
-  name: 'McvErrorMessage',
+  name: "McvErrorMessage",
   props: {
     message: {
       type: String,
       required: false,
-      default: 'Something went wrong'
-    }
-  }
-}
+      default: "Something went wrong",
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

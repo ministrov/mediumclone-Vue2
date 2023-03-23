@@ -73,48 +73,51 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import { getterTypes as authGetterTypes, actionTypes as authActionTypes } from '@/store/modules/auth';
-import McvValidationErrors from '@/components/ValidationErrors';
+import { mapState, mapGetters } from "vuex";
+import {
+  getterTypes as authGetterTypes,
+  actionTypes as authActionTypes,
+} from "@/store/modules/auth";
+import McvValidationErrors from "@/components/ValidationErrors";
 
-  export default {
-    name: 'McvSettings',
-    components: {
-      McvValidationErrors
+export default {
+  name: "McvSettings",
+  components: {
+    McvValidationErrors,
+  },
+  computed: {
+    ...mapState({
+      isSubmitting: (state) => state.settings.isSubmitting,
+      validationErrors: (state) => state.settings.validationErrors,
+    }),
+    ...mapGetters({
+      currentUser: authGetterTypes.currentUser,
+    }),
+    form() {
+      return {
+        username: this.currentUser.username,
+        bio: this.currentUser.bio,
+        image: this.currentUser.image,
+        email: this.currentUser.email,
+        password: "",
+      };
     },
-    computed: {
-      ...mapState({
-        isSubmitting: state => state.settings.isSubmitting,
-        validationErrors: state => state.settings.validationErrors
-      }),
-      ...mapGetters({
-        currentUser: authGetterTypes.currentUser
-      }),
-      form() {
-        return {
-          username: this.currentUser.username,
-          bio: this.currentUser.bio,
-          image: this.currentUser.image,
-          email: this.currentUser.email,
-          password: ''
-        }
-      }
+  },
+  methods: {
+    onSubmit() {
+      console.log("submitted settings", this.form);
+      this.$store.dispatch(authActionTypes.updateCurrentUser, {
+        currentUserInput: this.form,
+      });
     },
-    methods: {
-      onSubmit() {
-        console.log('submitted settings', this.form);
-        this.$store.dispatch(authActionTypes.updateCurrentUser, {currentUserInput: this.form});
-      },
-      logout() {
-        console.log('logout');
-        this.$store.dispatch(authActionTypes.logout).then(() => {
-          this.$router.push({name: 'globalFeed'})
-        })
-      }
+    logout() {
+      console.log("logout");
+      this.$store.dispatch(authActionTypes.logout).then(() => {
+        this.$router.push({ name: "globalFeed" });
+      });
     },
-  }
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

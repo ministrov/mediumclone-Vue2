@@ -1,29 +1,59 @@
 <template>
   <div>
-    ADD TO FAVORITES
+    <button
+      @click="handleLike"
+      :class="{
+        btn: true,
+        'btn-sm': true,
+        'btn-primary': isFavoritedOptimistic,
+        'btn-outline-primary': !isFavoritedOptimistic,
+      }"
+    >
+      <i class="ion-heart" />
+      <span>&nbsp; {{ favoritesCountOptimistic }}</span>
+    </button>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'McvAddToFavorites',
-    props: {
-      isFavorited: {
-        type: Boolean,
-        required: true
-      },
-      articleSlug: {
-        type: String,
-        required: true
-      },
-      favoritesCount: {
-        type: Number,
-        required: true
+import { actionTypes } from "@/store/modules/addToFavorites";
+export default {
+  name: "McvAddToFavorites",
+  props: {
+    isFavorited: {
+      type: Boolean,
+      required: true,
+    },
+    articleSlug: {
+      type: String,
+      required: true,
+    },
+    favoritesCount: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      isFavoritedOptimistic: this.isFavorited,
+      favoritesCountOptimistic: this.favoritesCount,
+    };
+  },
+  methods: {
+    handleLike() {
+      this.$store.dispatch(actionTypes.addToFavorites, {
+        slug: this.articleSlug,
+        isFavorited: this.isFavoritedOptimistic,
+      });
+      if (this.isFavoritedOptimistic) {
+        this.favoritesCountOptimistic -= 1;
+      } else {
+        this.favoritesCountOptimistic += 1;
       }
-    }
-  }
+      this.isFavoritedOptimistic = !this.isFavoritedOptimistic;
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
